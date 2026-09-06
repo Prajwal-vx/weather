@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header with title and unit toggle -->
+        <header class="app-header">
+            <h1>Weather Forecast</h1>
+            <div class="unit-toggle">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="unitToggle">
+                    <span class="slider">
+                        <span class="unit-label unit-celsius">°C</span>
+                        <span class="unit-label unit-fahrenheit">°F</span>
+                    </span>
+                </label>
+            </div>
+        </header>
+
+        <!-- Search section -->
+        <section class="search-section">
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    placeholder="Search city..." 
+                    autocomplete="off"
+                >
+                <button id="searchButton" class="search-btn">
+                    <span class="search-icon">🔍</span>
+                </button>
+                <button id="locationButton" class="location-btn" title="Use my location">
+                    <span class="location-icon">📍</span>
+                </button>
+            </div>
+            
+            <!-- Recent searches as clickable chips -->
+            <div id="recentSearches" class="recent-searches">
+                <!-- Recent city chips will be dynamically inserted here -->
+            </div>
+        </section>
+
+        <!-- Loading spinner -->
+        <div id="loadingSpinner" class="loading-spinner hidden">
+            <div class="spinner"></div>
+            <p>Loading weather data...</p>
+        </div>
+
+        <!-- Error message -->
+        <div id="errorMessage" class="error-message hidden">
+            <span class="error-icon">⚠️</span>
+            <p id="errorText">Error message here</p>
+        </div>
+
+        <!-- Current weather display -->
+        <section id="currentWeather" class="current-weather hidden">
+            <div class="weather-header">
+                <h2 id="cityName">City Name, Country</h2>
+                <p id="weatherDate" class="weather-date"></p>
+            </div>
+            
+            <div class="weather-main">
+                <div class="weather-icon-container">
+                    <img id="weatherIcon" src="" alt="Weather icon" class="weather-icon">
+                </div>
+                <div class="temperature-container">
+                    <span id="temperature" class="temperature">--</span>
+                    <span id="temperatureUnit" class="temperature-unit">°C</span>
+                </div>
+                <p id="weatherDescription" class="weather-description">Weather condition</p>
+            </div>
+
+            <div class="weather-details">
+                <div class="detail-item">
+                    <span class="detail-label">Feels like</span>
+                    <span id="feelsLike" class="detail-value">--°</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Humidity</span>
+                    <span id="humidity" class="detail-value">--%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Wind Speed</span>
+                    <span id="windSpeed" class="detail-value">-- m/s</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5-day forecast display -->
+        <section id="forecastSection" class="forecast-section hidden">
+            <h3>5-Day Forecast</h3>
+            <div id="forecastCards" class="forecast-cards">
+                <!-- Forecast cards will be dynamically inserted here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Load JavaScript modules -->
+    <!-- Only load app.js - it will import the other modules including env-config -->
+    <script type="module" src="app.js"></script>
+</body>
+</html>

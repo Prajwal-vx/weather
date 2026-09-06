@@ -1,0 +1,17 @@
+# Environment variables
+.env
+env-config.js
+
+# Keep the template
+!env-config.js.template
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
