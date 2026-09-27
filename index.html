@@ -1,230 +1,73 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Forecast App</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#142126">
+  <meta name="description" content="A clear, simple local weather forecast.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://openweathermap.org; connect-src https://api.openweathermap.org; base-uri 'self'; form-action 'self'; object-src 'none'">
+  <title>Weather App</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Animated Weather Backgrounds -->
-    <div id="weatherBackground" class="weather-background">
-        <!-- Sunny weather elements -->
-        <div id="sunnyElements" class="weather-layer sunny-bg">
-            <div class="sun-rays"></div>
-            <div class="sun"></div>
-        </div>
-        
-        <!-- Cloudy weather elements -->
-        <div id="cloudyElements" class="weather-layer cloudy-bg hidden">
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
-            <div class="cloud cloud-4"></div>
-        </div>
-        
-        <!-- Rainy weather elements -->
-        <div id="rainyElements" class="weather-layer rainy-bg hidden">
-            <div class="rain-container">
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-            </div>
-        </div>
-        
-        <!-- Stormy weather elements -->
-        <div id="stormyElements" class="weather-layer stormy-bg hidden">
-            <div class="rain-container">
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-                <div class="rain-drop"></div>
-            </div>
-            <div class="lightning"></div>
-        </div>
-        
-        <!-- Night weather elements -->
-        <div id="nightElements" class="weather-layer night-bg hidden">
-            <div class="moon"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-            <div class="star"></div>
-        </div>
-        
-        <!-- Snowy weather elements -->
-        <div id="snowyElements" class="weather-layer snowy-bg hidden">
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-            <div class="snowflake">❄</div>
-        </div>
-    </div>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Skyline Weather home"><span class="brand-mark" aria-hidden="true">≋</span><span>Weather<span class="brand-light">App</span></span></a>
+      <div class="welcome"><span>YOUR WEATHER DESK</span><strong>Weather forecast</strong></div>
+      <form id="searchForm" class="search-form" role="search">
+        <span class="search-symbol" aria-hidden="true">⌕</span>
+        <input id="searchInput" type="search" placeholder="Search a city or region" aria-label="Search for a city" maxlength="80" autocomplete="off">
+        <button id="searchButton" class="search-submit" type="submit" aria-label="Search">Search</button>
+      </form>
+      <div class="header-actions">
+        <button id="locationButton" class="icon-button" type="button" aria-label="Use my location" title="Use my location">⌖</button>
+        <label class="unit-control" for="unitToggle"><span>°C</span><input id="unitToggle" type="checkbox" aria-label="Switch to Fahrenheit"><span>°F</span></label>
+      </div>
+    </header>
 
-    <div class="container">
-        <!-- Header with title and unit toggle -->
-        <header class="app-header">
-            <h1>✨ Weather Forecast</h1>
-            <div class="unit-toggle">
-                <label class="toggle-switch">
-                    <input type="checkbox" id="unitToggle">
-                    <span class="slider">
-                        <span class="unit-label unit-celsius">°C</span>
-                        <span class="unit-label unit-fahrenheit">°F</span>
-                    </span>
-                </label>
-            </div>
-        </header>
+    <section class="dashboard" aria-label="Weather dashboard">
+      <nav class="weather-rail" aria-label="Quick actions">
+        <a class="rail-logo" href="#" aria-label="Home">≋</a>
+        <button id="railSearch" type="button" aria-label="Focus city search" title="Search">⌕</button>
+        <button id="railLocation" type="button" aria-label="Use my location" title="My location">◎</button>
+        <button id="railForecast" type="button" aria-label="Jump to five-day forecast" title="Forecast">▦</button>
+        <span class="rail-spacer"></span><span class="rail-weather" aria-hidden="true">✳</span>
+      </nav>
 
-        <!-- Search section -->
-        <section class="search-section">
-            <div class="search-container">
-                <input 
-                    type="text" 
-                    id="searchInput" 
-                    placeholder="🔍 Search city..." 
-                    autocomplete="off"
-                >
-                <button id="searchButton" class="search-btn">
-                    <span>🔍</span>
-                </button>
-                <button id="locationButton" class="location-btn" title="Use my location">
-                    <span>📍</span>
-                </button>
-            </div>
-            
-            <div id="recentSearches" class="recent-searches">
-                <!-- Recent city chips inserted here -->
-            </div>
+      <div class="main-column">
+        <div id="loadingSpinner" class="status-card hidden" role="status"><span class="spinner"></span><span>Finding your forecast…</span></div>
+        <div id="errorMessage" class="error-card hidden" role="alert"><span aria-hidden="true">!</span><p id="errorText">We couldn’t load the weather.</p></div>
+        <section id="currentWeather" class="current-card is-empty" aria-live="polite">
+          <div class="weather-scene" aria-hidden="true"><span class="weather-orb"></span><span class="weather-cloud cloud-one"></span><span class="weather-cloud cloud-two"></span><span class="weather-cloud cloud-three"></span><span class="weather-precipitation"></span><span class="weather-flash"></span><span class="field-glow"></span></div>
+          <div class="current-topline"><div><p class="eyebrow">WEATHER FORECAST</p><h1 id="cityName">Your local forecast</h1><p id="weatherDate" class="muted">Search a city to see the sky ahead</p></div><div class="live-pill hidden"><span></span> LIVE</div></div>
+          <div class="hero-weather">
+            <div class="hero-condition"><p class="condition-kicker">RIGHT NOW</p><h2 id="weatherDescription">A little more sky in your day.</h2><p id="feelsLike" class="muted">Search for a place to get started</p></div>
+            <div class="hero-temp hidden"><img id="weatherIcon" alt="" src=""><span id="temperature">—</span><span id="temperatureUnit">°C</span></div>
+          </div>
+          <div class="weather-details hidden">
+            <article class="detail-tile"><span class="detail-icon" aria-hidden="true">◌</span><div><p class="detail-label">Humidity</p><p id="humidity" class="detail-value">—</p></div></article>
+            <article class="detail-tile"><span class="detail-icon" aria-hidden="true">↗</span><div><p class="detail-label">Wind</p><p id="windSpeed" class="detail-value">—</p></div></article>
+            <article class="detail-tile"><span class="detail-icon" aria-hidden="true">⌁</span><div><p class="detail-label">Conditions</p><p id="conditionDetail" class="detail-value">—</p></div></article>
+          </div>
         </section>
 
-        <!-- Loading spinner -->
-        <div id="loadingSpinner" class="loading-spinner hidden">
-            <div class="spinner"></div>
-            <p>✨ Loading weather data...</p>
-        </div>
-
-        <!-- Error message -->
-        <div id="errorMessage" class="error-message hidden">
-            <span class="error-icon">⚠️</span>
-            <p id="errorText">Error message here</p>
-        </div>
-
-        <!-- Current weather display -->
-        <section id="currentWeather" class="current-weather">
-            <div class="weather-header">
-                <h2 id="cityName">London, UK</h2>
-                <p id="weatherDate" class="weather-date">Monday, September 7, 2026</p>
-            </div>
-            
-            <div class="weather-main">
-                <div class="weather-icon-container">
-                    <div class="weather-icon-placeholder">☀️</div>
-                </div>
-                <div class="temperature-container">
-                    <span id="temperature" class="temperature">24</span>
-                    <span id="temperatureUnit" class="temperature-unit">°C</span>
-                </div>
-                <p id="weatherDescription" class="weather-description">Sunny & Clear</p>
-            </div>
-
-            <div class="weather-details">
-                <div class="detail-item">
-                    <span class="detail-label">Feels like</span>
-                    <span id="feelsLike" class="detail-value">25°</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Humidity</span>
-                    <span id="humidity" class="detail-value">48%</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Wind Speed</span>
-                    <span id="windSpeed" class="detail-value">3.6 m/s</span>
-                </div>
-            </div>
+        <section id="forecastSection" class="forecast-panel">
+          <div class="forecast-heading"><div><p class="eyebrow">PLAN AHEAD</p><h2>Five-day forecast</h2></div><span class="forecast-note">DAILY OUTLOOK</span></div>
+          <div id="forecastCards" class="forecast-cards" aria-live="polite"><p class="forecast-empty">Your forecast will appear here once you search for a city.</p></div>
         </section>
+      </div>
 
-        <!-- 5-day forecast display -->
-        <section id="forecastSection" class="forecast-section">
-            <h3>📅 5-Day Forecast</h3>
-            <div id="forecastCards" class="forecast-cards">
-                <div class="forecast-card">
-                    <div class="forecast-date">Tue</div>
-                    <div class="forecast-icon">🌤️</div>
-                    <div class="forecast-temps">
-                        <span class="forecast-high">22°</span>
-                        <span class="forecast-low">14°</span>
-                    </div>
-                </div>
-                <div class="forecast-card">
-                    <div class="forecast-date">Wed</div>
-                    <div class="forecast-icon">🌧️</div>
-                    <div class="forecast-temps">
-                        <span class="forecast-high">18°</span>
-                        <span class="forecast-low">12°</span>
-                    </div>
-                </div>
-                <div class="forecast-card">
-                    <div class="forecast-date">Thu</div>
-                    <div class="forecast-icon">🌩️</div>
-                    <div class="forecast-temps">
-                        <span class="forecast-high">16°</span>
-                        <span class="forecast-low">10°</span>
-                    </div>
-                </div>
-                <div class="forecast-card">
-                    <div class="forecast-date">Fri</div>
-                    <div class="forecast-icon">☁️</div>
-                    <div class="forecast-temps">
-                        <span class="forecast-high">19°</span>
-                        <span class="forecast-low">11°</span>
-                    </div>
-                </div>
-                <div class="forecast-card">
-                    <div class="forecast-date">Sat</div>
-                    <div class="forecast-icon">☀️</div>
-                    <div class="forecast-temps">
-                        <span class="forecast-high">23°</span>
-                        <span class="forecast-low">15°</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <script type="module" src="app.js"></script>
+      <aside class="side-column">
+        <section class="side-card current-summary"><div class="section-heading"><span class="eyebrow">AT A GLANCE</span><span class="summary-mark" aria-hidden="true">✳</span></div><p class="summary-title">Weather, made local.</p><p class="summary-copy">Current conditions and the days ahead, wherever you need them.</p><div class="summary-rule"></div><p class="summary-foot">Weather data by OpenWeather</p></section>
+        <section class="side-card recent-card"><div class="section-heading"><div><p class="eyebrow">QUICK ACCESS</p><h2>Recent places</h2></div><span class="pin-mark" aria-hidden="true">⌖</span></div><div id="recentSearches" class="recent-searches"><p class="empty-note">Cities you search will be saved here.</p></div></section>
+        <div class="side-caption"><span class="live-dot"></span> Your forecast, at a glance</div>
+      </aside>
+    </section>
+    <footer class="page-footer"><span>WEATHER APP</span><span>Made for the days ahead <span aria-hidden="true">✳</span></span></footer>
+  </main>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

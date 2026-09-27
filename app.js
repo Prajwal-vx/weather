@@ -20,8 +20,12 @@ let recentSearches = [];        // Array of recently searched cities
 const elements = {
     // Search elements
     searchInput: document.getElementById('searchInput'),
+    searchForm: document.getElementById('searchForm'),
     searchButton: document.getElementById('searchButton'),
     locationButton: document.getElementById('locationButton'),
+    railSearch: document.getElementById('railSearch'),
+    railLocation: document.getElementById('railLocation'),
+    railForecast: document.getElementById('railForecast'),
     recentSearches: document.getElementById('recentSearches'),
     
     // Unit toggle
@@ -34,6 +38,8 @@ const elements = {
     
     // Current weather
     currentWeather: document.getElementById('currentWeather'),
+    heroTemperature: document.querySelector('.hero-temp'),
+    weatherDetails: document.querySelector('.weather-details'),
     cityName: document.getElementById('cityName'),
     weatherDate: document.getElementById('weatherDate'),
     weatherIcon: document.getElementById('weatherIcon'),
@@ -43,6 +49,7 @@ const elements = {
     feelsLike: document.getElementById('feelsLike'),
     humidity: document.getElementById('humidity'),
     windSpeed: document.getElementById('windSpeed'),
+    conditionDetail: document.getElementById('conditionDetail'),
     
     // Forecast
     forecastSection: document.getElementById('forecastSection'),
@@ -84,6 +91,14 @@ function renderCurrentWeather(weatherData) {
     
     // Update city name with country code
     elements.cityName.textContent = `${name}, ${sys.country}`;
+    const condition = String(weather[0].main || '').toLowerCase();
+    elements.currentWeather.dataset.weather = condition.includes('thunder') ? 'storm'
+        : condition.includes('rain') || condition.includes('drizzle') ? 'rain'
+        : condition.includes('snow') ? 'snow'
+        : condition.includes('clear') ? 'clear' : 'clouds';
+    elements.currentWeather.classList.remove('is-empty');
+    elements.heroTemperature.classList.remove('hidden');
+    elements.weatherDetails.classList.remove('hidden');
     
     // Update current date
     const currentDate = new Date();
@@ -100,6 +115,8 @@ function renderCurrentWeather(weatherData) {
     const iconCode = weather[0].icon;
     elements.weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
     elements.weatherIcon.alt = weather[0].description;
+    elements.currentWeather.classList.add('has-weather-icon');
+    document.querySelector('.live-pill').classList.remove('hidden');
     
     // Update temperature
     elements.temperature.textContent = Math.round(main.temp);
@@ -109,12 +126,13 @@ function renderCurrentWeather(weatherData) {
     elements.weatherDescription.textContent = weather[0].description;
     
     // Update weather details
-    elements.feelsLike.textContent = `${Math.round(main.feels_like)}°`;
+    elements.feelsLike.textContent = `Feels like ${Math.round(main.feels_like)}°`;
     elements.humidity.textContent = `${main.humidity}%`;
     
     // Update wind speed with appropriate unit
     const windUnit = currentUnit === UNITS.METRIC ? 'm/s' : 'mph';
-    elements.windSpeed.textContent = `${wind.speed} ${windUnit}`;
+    elements.windSpeed.textContent = `${Number(wind.speed).toFixed(1)} ${windUnit}`;
+    elements.conditionDetail.textContent = weather[0].main;
     
     // Show the current weather section
     elements.currentWeather.classList.remove('hidden');
@@ -125,8 +143,7 @@ function renderCurrentWeather(weatherData) {
  * @param {Array} forecastData - Array of daily forecast objects
  */
 function renderForecast(forecastData) {
-    // Clear previous forecast cards
-    elements.forecastCards.innerHTML = '';
+    elements.forecastCards.replaceChildren();
     
     // Create a card for each day
     forecastData.forEach((day, index) => {
@@ -144,7 +161,7 @@ function renderForecast(forecastData) {
  * @param {number} index - Index of the day (for styling)
  * @returns {HTMLElement} Forecast card element
  */
-function createForecastCard(dayData, index) {
+function createForecastCard(dayData) {
     const card = document.createElement('div');
     card.className = 'forecast-card';
     
@@ -156,19 +173,23 @@ function createForecastCard(dayData, index) {
         day: 'numeric'
     });
     
-    // Create card HTML structure
-    card.innerHTML = `
-        <div class="forecast-date">${formattedDate}</div>
-        <img 
-            src="https://openweathermap.org/img/wn/${dayData.icon}@2x.png" 
-            alt="${dayData.description}" 
-            class="forecast-icon"
-        >
-        <div class="forecast-temps">
-            <span class="forecast-high">${Math.round(dayData.temp_max)}°</span>
-            <span class="forecast-low">${Math.round(dayData.temp_min)}°</span>
-        </div>
-    `;
+    const dateLabel = document.createElement('div');
+    dateLabel.className = 'forecast-date';
+    dateLabel.textContent = formattedDate;
+    const icon = document.createElement('img');
+    icon.className = 'forecast-icon';
+    icon.alt = dayData.description;
+    icon.src = `https://openweathermap.org/img/wn/${/^\d{2}[dn]$/.test(dayData.icon) ? dayData.icon : '01d'}@2x.png`;
+    const temps = document.createElement('div');
+    temps.className = 'forecast-temps';
+    const high = document.createElement('span');
+    high.className = 'forecast-high';
+    high.textContent = `${Math.round(dayData.temp_max)}°`;
+    const low = document.createElement('span');
+    low.className = 'forecast-low';
+    low.textContent = `${Math.round(dayData.temp_min)}°`;
+    temps.append(high, low);
+    card.append(dateLabel, icon, temps);
     
     return card;
 }
@@ -178,10 +199,14 @@ function createForecastCard(dayData, index) {
  */
 function renderRecentSearches() {
     // Clear existing chips
-    elements.recentSearches.innerHTML = '';
+    elements.recentSearches.replaceChildren();
     
     // Don't show if no recent searches
     if (recentSearches.length === 0) {
+        const empty = document.createElement('p');
+        empty.className = 'empty-note';
+        empty.textContent = 'Places you look up will show here.';
+        elements.recentSearches.appendChild(empty);
         return;
     }
     
@@ -257,22 +282,17 @@ function clearWeatherDisplay() {
  * Loads recent searches from localStorage
  */
 function loadRecentSearches() {
-    const stored = localStorage.getItem('recentSearches');
-    if (stored) {
-        try {
-            recentSearches = JSON.parse(stored);
-        } catch (e) {
-            console.error('Error parsing recent searches:', e);
-            recentSearches = [];
-        }
-    }
+    try {
+        const stored = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+        recentSearches = Array.isArray(stored) ? stored.filter(value => typeof value === 'string' && value.trim().length > 1 && value.length <= 80).slice(0, 5) : [];
+    } catch { recentSearches = []; }
 }
 
 /**
  * Saves recent searches to localStorage
  */
 function saveRecentSearches() {
-    localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+    try { localStorage.setItem('recentSearches', JSON.stringify(recentSearches)); } catch { /* Storage may be disabled or full. */ }
 }
 
 /**
@@ -312,8 +332,8 @@ async function handleSearch() {
     const city = elements.searchInput.value.trim();
     
     // Validate input
-    if (!city) {
-        showError('Please enter a city name');
+    if (city.length < 2 || city.length > 80 || !/[\p{L}\p{N}]/u.test(city)) {
+        showError('Enter a city name between 2 and 80 characters.');
         return;
     }
     
@@ -461,29 +481,11 @@ function debounce(func, delay) {
  * Sets up all event listeners for the application
  */
 function setupEventListeners() {
-    // Search button click
-    elements.searchButton.addEventListener('click', handleSearch);
-    
-    // Search input enter key
-    elements.searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            handleSearch();
-        }
-    });
-    
-    // Debounced search input (optional - triggers search as user types)
-    const debouncedSearch = debounce(handleSearch, 500);
-    elements.searchInput.addEventListener('input', () => {
-        const city = elements.searchInput.value.trim();
-        if (city.length > 2) { // Only search if 3+ characters
-            debouncedSearch();
-        }
-    });
-    
-    // Location button click
+    elements.searchForm.addEventListener('submit', event => { event.preventDefault(); handleSearch(); });
     elements.locationButton.addEventListener('click', handleGeolocation);
-    
-    // Unit toggle change
+    elements.railSearch.addEventListener('click', () => elements.searchInput.focus());
+    elements.railLocation.addEventListener('click', handleGeolocation);
+    elements.railForecast.addEventListener('click', () => elements.forecastSection.scrollIntoView({ behavior: 'smooth', block: 'center' }));
     elements.unitToggle.addEventListener('change', handleUnitToggle);
 }
 

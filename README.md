@@ -1,52 +1,34 @@
-# Weather Forecast App
+# Skyline Weather
 
-A modern weather application built with vanilla JavaScript, HTML, and CSS that demonstrates REST API integration, async data fetching, and dynamic UI rendering.
+A lightweight weather dashboard built with HTML, CSS, and vanilla JavaScript. It provides city search, browser location, Celsius/Fahrenheit switching, recent places, and a five-day outlook using OpenWeatherMap.
 
-## Project Structure
+## Run locally
 
-```
-weather/
-├── index.html          # Main HTML structure
-├── styles.css          # All styling and responsive design
-├── .env                # Environment variables template (DO NOT edit this)
-├── env-config.js       # Your actual API key configuration (EDIT THIS)
-├── config.js           # API configuration and constants
-├── api.js              # API service layer (fetch logic)
-├── app.js              # Main application logic (DOM manipulation, event handlers)
-├── .gitignore          # Git ignore rules (excludes env-config.js)
-└── README.md           # This file
-```
+1. Get an OpenWeatherMap API key.
+2. Copy `env-config.js.template` to the ignored `env-config.js`, then put your key there: `const ENV_CONFIG = { openWeatherApiKey: 'YOUR_KEY' }; export { ENV_CONFIG };`
+3. Serve this folder from a local HTTP server, then open `index.html`. Browser ES modules and location access are restricted when opening the file directly.
 
-## Setup Instructions
+## Security and deployment
 
-1. **Get your API key**: Sign up at [OpenWeatherMap](https://openweathermap.org/api) and get your free API key
-2. **Configure the app**: Open `env-config.js` and replace the API key with your actual key:
-   ```javascript
-   const ENV_CONFIG = {
-       openWeatherApiKey: 'your_actual_api_key_here' // Replace this
-   };
-   ```
-3. **Run the app**: Open `index.html` in a web browser (no build step required!)
+This project has no backend, accounts, database, uploads, or server-side API. A key included in browser JavaScript is visible to every visitor, even when the config file is excluded from source control. For public hosting, add a small server-side API proxy, store the provider key in its secret store, validate and rate-limit requests there, and restrict the provider key to the proxy where supported. Do not treat `env-config.js` as a secret in a deployed static site.
 
-## Security Notes
-
-- **`.env`**: Template file for documentation purposes
-- **`env-config.js`**: Contains your actual API key (excluded from git via .gitignore)
-- **Never commit** your API key to version control
-- The `.gitignore` file ensures `env-config.js` won't be shared
+A previously embedded provider key was removed from the source. Rotate that key in the OpenWeatherMap account before deploying; removing it from the current files does not revoke a credential already exposed in a checkout or history.
 
 ## Features
 
-- Search weather by city name
-- Use current location via Geolocation API
-- Display current weather with temperature, conditions, humidity, wind speed
-- 5-day forecast with daily cards
-- Toggle between Celsius and Fahrenheit
-- Loading states and error handling
-- Recent search history (stored in localStorage)
-- Fully responsive design
+- Search weather by city
+- Use current location (requires browser permission and a secure context)
+- Current temperature, feels-like temperature, humidity, and wind
+- Five-day forecast from forecast intervals, selecting a representative near-noon reading
+- Celsius/Fahrenheit toggle
+- Recent places stored locally in the browser
+- Responsive dashboard and accessible search/status labels
 
-## API Endpoints Used
+## Project files
 
-- **Current Weather**: `/weather` - Get current weather data
-- **5-Day Forecast**: `/forecast` - Get 5-day weather forecast
+- `index.html` — dashboard structure
+- `styles.css` — responsive visual design
+- `app.js` — interface state and interactions
+- `api.js` — validated weather requests and response parsing
+- `config.js` — provider endpoint and local configuration import
+- `env-config.js.template` — local configuration example (contains no usable key)

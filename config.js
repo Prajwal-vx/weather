@@ -3,12 +3,17 @@
 // Get your free API key from: https://openweathermap.org/api
 // Sign up for a free account and navigate to API keys section
 
-import { ENV_CONFIG } from './env-config.js';
+let ENV_CONFIG = {};
+try {
+  ({ ENV_CONFIG } = await import('./env-config.js'));
+} catch {
+  // Fresh checkouts do not contain the ignored local key file.
+}
 
 const API_CONFIG = {
-  // API key is loaded from environment configuration
-  // If env-config.js doesn't exist, you can temporarily set the key here
-  apiKey: ENV_CONFIG.openWeatherApiKey || '1aa6e29820a12f771d91538a74add1f2',
+  // Browser keys are public. For a public deployment, proxy this API through
+  // a server and keep the provider key in a server-side secret store.
+  apiKey: ENV_CONFIG.openWeatherApiKey || '',
   
   // Base URL for OpenWeatherMap API
   baseUrl: 'https://api.openweathermap.org/data/2.5',
