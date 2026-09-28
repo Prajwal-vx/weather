@@ -8,3 +8,69 @@
 @media(max-width:800px){.app-shell{padding:0 18px}.topbar{gap:14px}.welcome{display:none}.dashboard{grid-template-columns:46px minmax(0,1fr);gap:12px}.weather-rail{grid-row:1/3;position:sticky;top:12px;height:calc(100vh - 24px);max-height:680px}.side-column{grid-column:2;display:grid;grid-template-columns:1fr 1.2fr;align-items:stretch}.side-caption{grid-column:1/-1}.current-card,.current-card.is-empty{min-height:610px}.summary-copy{font-size:10px}.recent-card{min-height:155px}}
 @media(max-width:560px){.app-shell{padding:0 12px}.topbar{height:auto;min-height:76px;flex-wrap:wrap;padding:12px 0;gap:10px}.brand{min-width:0;flex:1;font-size:16px}.brand-mark{width:33px;height:33px}.header-actions{gap:9px}.icon-button{width:35px;height:35px}.search-form{order:3;flex-basis:100%;max-width:none;margin:0}.dashboard{grid-template-columns:1fr;gap:13px;padding:14px 0}.weather-rail{position:static;grid-row:auto;height:auto;max-height:none;flex-direction:row;justify-content:center;gap:11px;padding:7px 10px;border-radius:18px}.rail-logo{margin:0 auto 0 0}.weather-rail button,.rail-logo,.rail-weather{width:35px;height:35px}.rail-spacer{display:none}.rail-weather{margin-left:auto}.main-column,.side-column{grid-column:1}.current-card,.current-card.is-empty{min-height:620px;padding:24px 18px 18px}.current-topline h1{font-size:23px}.hero-weather{grid-template-columns:1fr;margin:29px 0 19px;gap:17px}.hero-condition h2{font-size:39px}.hero-temp{min-height:94px;justify-content:flex-start;padding:10px 18px}.hero-temp img{width:42px;height:42px}.hero-temp span:nth-of-type(1){font-size:54px}.hero-temp span:nth-of-type(2){font-size:20px}.weather-details{grid-template-columns:1fr;gap:6px;margin-bottom:18px}.detail-tile{min-height:49px;padding:7px 10px}.forecast-panel{padding-top:14px}.forecast-heading h2{font-size:17px}.forecast-cards{gap:0;margin-top:10px}.forecast-card{min-height:83px;gap:2px}.forecast-date{font-size:9px}.forecast-icon{width:34px;height:34px}.forecast-temps{gap:5px;font-size:10px}.side-column{display:flex;flex-direction:column}.side-card{padding:17px}.recent-card{min-height:0}.recent-searches{grid-template-columns:repeat(auto-fit,minmax(125px,1fr))}.search-chip{min-height:51px;padding:10px}.page-footer{padding:0 0 13px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}.forecast-card:hover,.detail-tile:hover,.search-chip:hover,.icon-button:hover,.weather-rail button:hover{transform:none}}
+
+/* Alpine lake visual direction */
+body{color:#f7f5ef;background-color:#14221e;background-image:linear-gradient(180deg,rgba(10,19,20,.55) 0%,rgba(12,22,21,.28) 33%,rgba(11,21,19,.58) 100%),url("alpine-lake.png");background-position:center,center 44%;background-size:cover;background-attachment:fixed}
+body:before{display:none}
+.app-shell{max-width:1510px;padding-right:clamp(18px,4vw,58px);padding-left:clamp(18px,4vw,58px)}
+.topbar{height:88px;gap:25px;border-bottom-color:#ffffff30}
+.brand{min-width:150px;font-size:20px;letter-spacing:-.8px}
+.brand-mark{width:38px;height:38px;border-radius:50%;border-color:#ffffff4a;background:#f0eadc;color:#20342d;font-size:19px;box-shadow:0 5px 18px #0002}
+.brand-light{color:#d6d7ca}
+.welcome{min-width:175px}
+.welcome span,.eyebrow{color:#e1dfd1;letter-spacing:1.6px}
+.welcome strong{color:#fff;font-size:13px}
+.search-form{border-color:#ffffff53;background:#10201f9c;box-shadow:0 12px 32px #07110e35;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.search-form:focus-within{border-color:#e7d6b1;box-shadow:0 0 0 3px #eadbb333,0 12px 32px #07110e35}
+.search-submit{background:#e9e1cf;color:#25382f}
+.header-actions{gap:15px}
+.icon-button{border-color:#ffffff50;background:#11221fa8;backdrop-filter:blur(14px)}
+.unit-control{color:#f2efe5}
+.unit-control input{background:#8c9782}
+.unit-control input:checked{background:#d3b176}
+.dashboard{grid-template-columns:minmax(0,1fr) 286px;gap:18px;padding:20px 0 18px}
+.weather-rail{display:none}
+.current-card,.current-card.is-empty{min-height:650px;padding:32px 36px 22px;border:1px solid #ffffff48;border-radius:26px;background:linear-gradient(180deg,rgba(19,34,34,.43) 0%,rgba(13,27,26,.31) 52%,rgba(11,24,21,.75) 100%);box-shadow:0 28px 80px #07100e55;backdrop-filter:none;-webkit-backdrop-filter:none}
+.weather-scene{display:none}
+.current-topline h1{font-size:clamp(25px,2.6vw,34px);letter-spacing:-1px}
+.current-topline .muted{color:#e0e3db;font-size:12px}
+.live-pill{border-color:#ffffff42;background:#f4f3e51c}
+.hero-weather{margin-top:50px;margin-bottom:30px}
+.hero-condition .condition-kicker{color:#e6dfca;font-size:10px;letter-spacing:1.7px}
+.hero-condition h2{font-size:clamp(38px,4.8vw,62px);line-height:1.02;letter-spacing:-2.6px;text-transform:none;text-shadow:0 3px 30px #09110f75}
+.hero-condition .muted{color:#e4e5dd}
+.hero-temp{min-height:158px;border-color:#ffffff61;border-radius:26px;background:#f2f0e8d9;box-shadow:0 18px 45px #07110e3d;color:#263b32;text-shadow:none;backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px)}
+.hero-temp span:nth-of-type(2){color:#617067}
+.weather-details{gap:9px;margin-bottom:25px}
+.detail-tile{border-color:#ffffff35;border-radius:15px;background:#12231f91;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.detail-icon{background:#efe6d329;color:#e8d3a8}
+.detail-label{color:#d6ded7}
+.forecast-panel{padding-top:17px;border-top-color:#ffffff51}
+.forecast-heading h2{font-size:20px}
+.forecast-note{border-color:#ffffff3b;background:#ffffff17;color:#ebe9df}
+.forecast-cards{gap:8px}
+.forecast-card{min-height:88px;border:1px solid #ffffff14;border-radius:14px;background:#12231e4d}
+.forecast-card:hover{background:#ffffff1e}
+.forecast-date{color:#e1e3db}
+.forecast-empty{color:#e1e5dc}
+.side-column{gap:14px;align-self:stretch}
+.side-card{padding:21px;border:1px solid #ffffff40;border-radius:20px;background:linear-gradient(145deg,#172a26d9,#101e1bd9);box-shadow:0 20px 55px #07100e42;color:#f5f2e9;text-shadow:none;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.section-heading .eyebrow{color:#d3d5c7}
+.summary-mark,.pin-mark{color:#ddc995}
+.summary-title{font-size:22px;letter-spacing:-.6px}
+.summary-copy,.summary-foot{color:#cbd2c9}
+.summary-rule{background:#ffffff2a}
+.recent-card{flex:1;background:linear-gradient(145deg,#172a26e8,#101e1be8)}
+.recent-card h2{font-size:17px}
+.search-chip{min-height:54px;border-color:#ffffff30;background:#ffffff0c;color:#f5f2e9;text-shadow:none}
+.search-chip:after{color:#d9c995}
+.search-chip:hover{background:#ffffff1b}
+.empty-note{color:#cbd2c9}
+.side-caption{margin-top:auto;padding:7px 4px;color:#f0eee4}
+.page-footer{padding-bottom:14px;color:#e0e1d8}
+.page-footer span span{color:#e4cb91}
+.status-card{background:#10211fe8}
+.error-card{background:#48302beF}
+.is-empty .hero-weather{margin-top:86px}
+@media(max-width:800px){.dashboard{grid-template-columns:minmax(0,1fr);gap:14px}.weather-rail{display:none}.main-column,.side-column{grid-column:1}.current-card,.current-card.is-empty{min-height:620px}.side-column{display:grid;grid-template-columns:1fr 1.15fr;align-items:stretch}.side-caption{grid-column:1/-1}.recent-card{min-height:155px}}
+@media(max-width:560px){body{background-position:center,58% center}.app-shell{padding-right:14px;padding-left:14px}.topbar{min-height:76px}.brand{font-size:17px}.welcome{display:none}.dashboard{padding:14px 0}.current-card,.current-card.is-empty{min-height:625px;padding:23px 18px 17px}.hero-weather{margin:32px 0 18px}.is-empty .hero-weather{margin-top:74px}.hero-condition h2{font-size:clamp(37px,10vw,46px)}.hero-temp{min-height:92px}.weather-details{grid-template-columns:1fr;gap:6px;margin-bottom:17px}.detail-tile{min-height:48px}.forecast-cards{gap:2px}.forecast-card{min-height:80px;padding:4px 1px}.side-column{display:flex;flex-direction:column}.side-caption{grid-column:auto}.recent-card{min-height:0}.page-footer{font-size:8px}}

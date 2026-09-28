@@ -34,6 +34,21 @@
       if (days.length !== 1 || days[0].temp_max !== 21) throw new Error('Unexpected selected reading');
     });
     rejects('Malformed forecast is rejected', () => processForecastData({ list: 'unexpected' }));
+    rejects('Oversized forecast is rejected', () => processForecastData({ list: Array.from({ length: 101 }, () => ({})) }));
+    check('Invalid forecast readings are ignored safely', () => {
+      const days = processForecastData({ list: [{
+        dt_txt: '2026-09-27 12:00:00', main: { temp_min: 'not-a-number', temp_max: 25 },
+        weather: [{ description: '<img src=x onerror=alert(1)>', icon: '../../bad' }]
+      }] });
+      if (days.length !== 0) throw new Error('Invalid reading was included');
+    });
+    check('Forecast descriptions remain plain text data', () => {
+      const days = processForecastData({ list: [{
+        dt_txt: '2026-09-27 12:00:00', main: { temp_min: 10, temp_max: 20 },
+        weather: [{ description: '<img src=x onerror=alert(1)>', icon: '01d' }]
+      }] });
+      if (days.length !== 1 || !days[0].description.startsWith('<img')) throw new Error('Unexpected normalized description');
+    });
     rejects('Empty city search is rejected', () => getWeatherData(''));
     rejects('Out-of-range location is rejected', () => getWeatherDataByCoords(91, 0));
   </script>

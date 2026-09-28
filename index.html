@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#142126">
-  <meta name="description" content="A clear, simple local weather forecast.">
+  <meta name="theme-color" content="#17251f">
+  <meta name="description" content="A thoughtful local weather forecast, inspired by the outdoors.">
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https://openweathermap.org; connect-src https://api.openweathermap.org; base-uri 'self'; form-action 'self'; object-src 'none'">
-  <title>Weather App</title>
+  <title>Weather — your forecast, in its element</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -15,8 +15,8 @@
 <body>
   <main class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#" aria-label="Skyline Weather home"><span class="brand-mark" aria-hidden="true">≋</span><span>Weather<span class="brand-light">App</span></span></a>
-      <div class="welcome"><span>YOUR WEATHER DESK</span><strong>Weather forecast</strong></div>
+      <a class="brand" href="#" aria-label="Weather home"><span class="brand-mark" aria-hidden="true">✳</span><span>weather<span class="brand-light">.</span></span></a>
+      <div class="welcome"><span>MADE FOR THE OUTDOORS</span><strong>Weather, in its element</strong></div>
       <form id="searchForm" class="search-form" role="search">
         <span class="search-symbol" aria-hidden="true">⌕</span>
         <input id="searchInput" type="search" placeholder="Search a city or region" aria-label="Search for a city" maxlength="80" autocomplete="off">
@@ -42,9 +42,9 @@
         <div id="errorMessage" class="error-card hidden" role="alert"><span aria-hidden="true">!</span><p id="errorText">We couldn’t load the weather.</p></div>
         <section id="currentWeather" class="current-card is-empty" aria-live="polite">
           <div class="weather-scene" aria-hidden="true"><span class="weather-orb"></span><span class="weather-cloud cloud-one"></span><span class="weather-cloud cloud-two"></span><span class="weather-cloud cloud-three"></span><span class="weather-precipitation"></span><span class="weather-flash"></span><span class="field-glow"></span></div>
-          <div class="current-topline"><div><p class="eyebrow">WEATHER FORECAST</p><h1 id="cityName">Your local forecast</h1><p id="weatherDate" class="muted">Search a city to see the sky ahead</p></div><div class="live-pill hidden"><span></span> LIVE</div></div>
+          <div class="current-topline"><div><p class="eyebrow">A MOMENT OUTSIDE</p><h1 id="cityName">Your local forecast</h1><p id="weatherDate" class="muted">Search a place to see the sky ahead</p></div><div class="live-pill hidden"><span></span> LIVE</div></div>
           <div class="hero-weather">
-            <div class="hero-condition"><p class="condition-kicker">RIGHT NOW</p><h2 id="weatherDescription">A little more sky in your day.</h2><p id="feelsLike" class="muted">Search for a place to get started</p></div>
+            <div class="hero-condition"><p class="condition-kicker">THE WEATHER RIGHT NOW</p><h2 id="weatherDescription">Find your place in the weather.</h2><p id="feelsLike" class="muted">Search for a city or use your location</p></div>
             <div class="hero-temp hidden"><img id="weatherIcon" alt="" src=""><span id="temperature">—</span><span id="temperatureUnit">°C</span></div>
           </div>
           <div class="weather-details hidden">
@@ -61,7 +61,7 @@
       </div>
 
       <aside class="side-column">
-        <section class="side-card current-summary"><div class="section-heading"><span class="eyebrow">AT A GLANCE</span><span class="summary-mark" aria-hidden="true">✳</span></div><p class="summary-title">Weather, made local.</p><p class="summary-copy">Current conditions and the days ahead, wherever you need them.</p><div class="summary-rule"></div><p class="summary-foot">Weather data by OpenWeather</p></section>
+        <section class="side-card current-summary"><div class="section-heading"><span class="eyebrow">A CLEARER OUTLOOK</span><span class="summary-mark" aria-hidden="true">✳</span></div><p class="summary-title">Find your outside.</p><p class="summary-copy">A little more insight for wherever the day takes you.</p><div class="summary-rule"></div><p class="summary-foot">Forecasts by OpenWeather</p></section>
         <section class="side-card recent-card"><div class="section-heading"><div><p class="eyebrow">QUICK ACCESS</p><h2>Recent places</h2></div><span class="pin-mark" aria-hidden="true">⌖</span></div><div id="recentSearches" class="recent-searches"><p class="empty-note">Cities you search will be saved here.</p></div></section>
         <div class="side-caption"><span class="live-dot"></span> Your forecast, at a glance</div>
       </aside>
