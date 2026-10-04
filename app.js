@@ -12,9 +12,10 @@ import { UNITS } from './config.js';
 
 // Application state
 let currentUnit = UNITS.METRIC; // Default to Celsius
-let currentWeatherData = null;  // Store current weather data
-let currentForecastData = null; // Store forecast data
 let recentSearches = [];        // Array of recently searched cities
+let weatherRequestId = 0;
+let lastLookup = null;
+let isLocating = false;
 
 // DOM Element References
 const elements = {
@@ -333,36 +334,35 @@ async function handleSearch() {
     
     // Validate input
     if (city.length < 2 || city.length > 80 || !/[\p{L}\p{N}]/u.test(city)) {
+        weatherRequestId++;
+        isLocating = false;
         showError('Enter a city name between 2 and 80 characters.');
         return;
     }
     
-    // Show loading state
+    isLocating = false;
+    lastLookup = { type: 'city', city };
+    await loadWeather(lastLookup);
+}
+
+async function loadWeather(lookup, requestId = ++weatherRequestId) {
     showLoading();
     hideError();
-    
+
     try {
-        // Fetch weather data from API
-        const data = await getWeatherData(city, currentUnit);
-        
-        // Store data for unit conversion
-        currentWeatherData = data.current;
-        currentForecastData = data.forecast;
-        
-        // Render the data
+        const data = lookup.type === 'city'
+            ? await getWeatherData(lookup.city, currentUnit)
+            : await getWeatherDataByCoords(lookup.latitude, lookup.longitude, currentUnit);
+        if (requestId !== weatherRequestId) return;
+
         renderCurrentWeather(data.current);
         renderForecast(data.forecast);
-        
-        // Add to recent searches
-        addToRecentSearches(city);
-        
-        // Hide loading
-        hideLoading();
-        
+        addToRecentSearches(lookup.type === 'city' ? lookup.city : data.current.name);
+        if (lookup.type === 'coords') elements.searchInput.value = data.current.name;
     } catch (error) {
-        // Show error message
-        showError(error.message);
-        hideLoading();
+        if (requestId === weatherRequestId) showError(error.message);
+    } finally {
+        if (requestId === weatherRequestId) hideLoading();
     }
 }
 
@@ -370,12 +370,18 @@ async function handleSearch() {
  * Handles geolocation button click
  */
 async function handleGeolocation() {
+    const requestId = ++weatherRequestId;
+    isLocating = false;
+    lastLookup = null;
+
     // Check if geolocation is supported
     if (!navigator.geolocation) {
         showError('Geolocation is not supported by your browser');
         return;
     }
     
+    isLocating = true;
+
     // Show loading state
     showLoading();
     hideError();
@@ -389,31 +395,15 @@ async function handleGeolocation() {
                 maximumAge: 0
             });
         });
-        
+
+        if (requestId !== weatherRequestId) return;
+        isLocating = false;
         const { latitude, longitude } = position.coords;
-        
-        // Fetch weather data using coordinates
-        const data = await getWeatherDataByCoords(latitude, longitude, currentUnit);
-        
-        // Store data for unit conversion
-        currentWeatherData = data.current;
-        currentForecastData = data.forecast;
-        
-        // Render the data
-        renderCurrentWeather(data.current);
-        renderForecast(data.forecast);
-        
-        // Add city name to recent searches
-        const cityName = data.current.name;
-        addToRecentSearches(cityName);
-        
-        // Update search input with city name
-        elements.searchInput.value = cityName;
-        
-        // Hide loading
-        hideLoading();
-        
+        lastLookup = { type: 'coords', latitude, longitude };
+        await loadWeather(lastLookup, requestId);
     } catch (error) {
+        if (requestId !== weatherRequestId) return;
+        isLocating = false;
         // Handle different error types
         let errorMessage = 'Failed to get your location';
         
@@ -437,26 +427,7 @@ function handleUnitToggle() {
     // Toggle between metric and imperial
     currentUnit = elements.unitToggle.checked ? UNITS.IMPERIAL : UNITS.METRIC;
     
-    // If we have weather data, re-render with new units
-    if (currentWeatherData && currentForecastData) {
-        // Re-fetch data with new units
-        const city = elements.searchInput.value.trim() || currentWeatherData.name;
-        
-        showLoading();
-        
-        getWeatherData(city, currentUnit)
-            .then(data => {
-                currentWeatherData = data.current;
-                currentForecastData = data.forecast;
-                renderCurrentWeather(data.current);
-                renderForecast(data.forecast);
-                hideLoading();
-            })
-            .catch(error => {
-                showError(error.message);
-                hideLoading();
-            });
-    }
+    if (!isLocating && lastLookup) loadWeather(lastLookup);
 }
 
 /**
