@@ -153,12 +153,8 @@ async function getByParams(params, unit) {
     ]);
     return { current: validateCurrent(current), forecast: validateForecast(forecast) };
 }
-async function getCurrentWeather(city, unit = UNITS.METRIC) { validUnit(unit); return validateCurrent(await request('/weather', { q: validateCity(city), units: unit })); }
-async function getForecast(city, unit = UNITS.METRIC) { validUnit(unit); return validateForecast(await request('/forecast', { q: validateCity(city), units: unit })); }
-async function getCurrentWeatherByCoords(lat, lon, unit = UNITS.METRIC) { validateCoords(lat, lon); validUnit(unit); return validateCurrent(await request('/weather', { lat, lon, units: unit })); }
-async function getForecastByCoords(lat, lon, unit = UNITS.METRIC) { validateCoords(lat, lon); validUnit(unit); return validateForecast(await request('/forecast', { lat, lon, units: unit })); }
 function processForecastData(data) { return validateForecast(data); }
 function getWeatherData(city, unit = UNITS.METRIC) { return getByParams({ q: validateCity(city) }, unit); }
 function getWeatherDataByCoords(lat, lon, unit = UNITS.METRIC) { validateCoords(lat, lon); return getByParams({ lat, lon }, unit); }
 
-export { getCurrentWeather, getForecast, getCurrentWeatherByCoords, getForecastByCoords, processForecastData, getWeatherData, getWeatherDataByCoords };
+export { processForecastData, getWeatherData, getWeatherDataByCoords };

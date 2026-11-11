@@ -22,7 +22,6 @@ const elements = {
     // Search elements
     searchInput: document.getElementById('searchInput'),
     searchForm: document.getElementById('searchForm'),
-    searchButton: document.getElementById('searchButton'),
     locationButton: document.getElementById('locationButton'),
     railSearch: document.getElementById('railSearch'),
     railLocation: document.getElementById('railLocation'),
@@ -267,14 +266,6 @@ function hideError() {
     elements.errorMessage.classList.add('hidden');
 }
 
-/**
- * Clears all weather displays
- */
-function clearWeatherDisplay() {
-    elements.currentWeather.classList.add('hidden');
-    elements.forecastSection.classList.add('hidden');
-}
-
 // ========================
 // Local Storage Management
 // ========================
@@ -428,20 +419,6 @@ function handleUnitToggle() {
     currentUnit = elements.unitToggle.checked ? UNITS.IMPERIAL : UNITS.METRIC;
     
     if (!isLocating && lastLookup) loadWeather(lastLookup);
-}
-
-/**
- * Debounce function to limit API calls
- * @param {Function} func - Function to debounce
- * @param {number} delay - Delay in milliseconds
- * @returns {Function} Debounced function
- */
-function debounce(func, delay) {
-    let timeoutId;
-    return function (...args) {
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => func.apply(this, args), delay);
-    };
 }
 
 // ========================

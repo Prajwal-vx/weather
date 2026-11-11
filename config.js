@@ -16,19 +16,7 @@ const API_CONFIG = {
   apiKey: ENV_CONFIG.openWeatherApiKey || '',
   
   // Base URL for OpenWeatherMap API
-  baseUrl: 'https://api.openweathermap.org/data/2.5',
-  
-  // API Endpoints
-  endpoints: {
-    // Current weather by city name
-    currentWeather: '/weather',
-    // 5-day forecast by city name
-    forecast: '/forecast',
-    // Current weather by coordinates (for geolocation)
-    weatherByCoords: '/weather',
-    // Forecast by coordinates
-    forecastByCoords: '/forecast'
-  }
+  baseUrl: 'https://api.openweathermap.org/data/2.5'
 };
 
 // Unit constants
